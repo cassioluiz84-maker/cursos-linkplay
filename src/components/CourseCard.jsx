@@ -1,0 +1,8 @@
+import React from "react";
+import { ArrowUpRight, Heart, Play, Check } from 'lucide-react';
+export function CourseCover({ course }) {
+  return <div className={`course-cover ${course.theme}`} role="img" aria-label={`Capa de ${course.title}`}><span className="cover-label">{course.label}</span><span className="cover-symbol" aria-hidden="true">{course.symbol}</span><span className="cover-subtitle">{course.subtitle}</span><span className="cover-grain"/></div>;
+}
+export default function CourseCard({ course, onFavorite, onOpen }) {
+  return <article className="course-card"><div className="cover-wrap"><CourseCover course={course}/><button className={`favorite-button ${course.favorite ? 'selected' : ''}`} aria-label={`${course.favorite ? 'Remover' : 'Adicionar'} ${course.title} ${course.favorite ? 'dos' : 'aos'} favoritos`} aria-pressed={course.favorite} onClick={() => onFavorite(course.id)}><Heart size={17} fill={course.favorite ? 'currentColor' : 'none'}/></button></div><div className="card-body"><span className={`category-tag ${course.theme}`}>{course.category}</span><h3>{course.title}</h3><div className="video-count"><Play size={13}/>{course.videos} {course.videos === 1 ? 'vídeo' : 'vídeos'}</div><div className="progress-label"><span>{course.progress === 100 ? <><Check size={13}/> Concluído</> : 'Seu progresso'}</span><strong>{course.progress}%</strong></div><div className="progress-track" role="progressbar" aria-label={`Progresso de ${course.title}`} aria-valuenow={course.progress} aria-valuemin={0} aria-valuemax={100}><div style={{width: `${course.progress}%`}}/></div><button className="open-course" onClick={() => onOpen(course)}>Abrir curso <ArrowUpRight size={16}/></button></div></article>;
+}
