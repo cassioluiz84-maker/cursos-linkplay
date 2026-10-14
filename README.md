@@ -21,7 +21,7 @@ Não é necessário configurar `.env`, credenciais, banco de dados ou serviços 
 
 Para uma instalação reproduzível usando exatamente o `package-lock.json`, você também pode usar `npm ci` em vez de `npm install`.
 
-Abra o endereço mostrado pelo Vite (normalmente http://localhost:5173). Em uma máquina remota, use o encaminhamento da porta 5173 oferecido pelo seu ambiente.
+Abra o endereço mostrado pelo Vite (normalmente http://localhost:5173/cursos-linkplay/). Em uma máquina remota, use o encaminhamento da porta 5173 oferecido pelo seu ambiente.
 
 ## Verificações e compilação
 
@@ -46,3 +46,13 @@ Os dados ficam somente em memória: recarregar a página restaura os cursos fict
 - `src/App.test.jsx`: testes das interações principais.
 
 Os dados e componentes estão separados para facilitar a futura conexão com persistência e serviços reais.
+
+## Publicação no GitHub Pages
+
+Em **Settings > Pages > Build and deployment > Source**, selecione **GitHub Actions**.
+
+O workflow `.github/workflows/deploy-pages.yml` instala as dependências com `npm ci`, executa os testes, compila e publica `dist/` a cada push para `main`. Também pode ser iniciado manualmente em **Actions > Deploy to GitHub Pages > Run workflow**; use essa opção se o primeiro workflow tiver falhado antes de ativar Pages.
+
+O Vite usa `base: '/cursos-linkplay/'`. Após a conclusão bem-sucedida do deploy, o endereço esperado é https://cassioluiz84-maker.github.io/cursos-linkplay/.
+
+No desenvolvimento local, abra o endereço exibido pelo Vite com o caminho `/cursos-linkplay/` (normalmente http://localhost:5173/cursos-linkplay/). A prévia do build usa normalmente http://localhost:4173/cursos-linkplay/.
