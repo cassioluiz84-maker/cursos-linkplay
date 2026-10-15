@@ -33,19 +33,27 @@ npm run preview
 
 `npm run build` gera a pasta `dist/`; `npm run preview` serve essa compilação localmente, normalmente na porta 4173. As pastas `node_modules/` e `dist/` são geradas automaticamente e não devem ser enviadas ao GitHub. O `package-lock.json` deve ser versionado.
 
-## Primeira versão
+## Biblioteca de vídeos — etapa 2
 
-React + Vite, com pesquisa, filtro de favoritos, navegação por categorias, criação demonstrativa de cursos, inclusão demonstrativa de vídeos e simulação de progresso. As capas são ilustrações em CSS, sem serviços externos.
+A interface original em React + Vite foi preservada. Agora é possível cadastrar, editar, favoritar, pesquisar e excluir vídeos do YouTube, associá-los a cursos e assisti-los no player incorporado oficial. A exclusão exige confirmação. Marque um vídeo como concluído no player para atualizar o progresso do curso; não há rastreamento automático de tempo assistido.
 
-Os dados ficam somente em memória: recarregar a página restaura os cursos fictícios. Não há banco de dados, login, API externa ou reprodução de vídeos nesta etapa.
+O formulário aceita links `youtube.com/watch?v=...`, `youtu.be/...`, `youtube.com/shorts/...` e `youtube.com/embed/...`, com ou sem `https://`. Exige título, curso e categoria e detecta duplicatas pelo ID, mesmo em formatos diferentes. A descrição é opcional. Miniaturas públicas são carregadas de `i.ytimg.com`; o player vem de `www.youtube.com`. Não são necessários API key ou downloads de vídeos. A disponibilidade da reprodução depende do YouTube e das permissões do autor.
 
-- `src/App.jsx`: navegação e estado da aplicação.
-- `src/components/`: cards, capas e janela modal acessível.
-- `src/data/courses.js`: cursos demonstrativos e filtragem.
-- `src/styles.css`: aparência e layouts responsivos.
-- `src/App.test.jsx`: testes das interações principais.
+### Dados locais
 
-Os dados e componentes estão separados para facilitar a futura conexão com persistência e serviços reais.
+Cursos criados, vídeos, categorias, favoritos e conclusão são mantidos no `localStorage`, na chave `cursos-linkplay.library.v1`. A estrutura versionada separa `courses`, `videos`, `categories` e `demoOverrides`. Os seis cursos fictícios ficam no código, claramente identificados como demonstração; somente suas preferências são armazenadas separadamente. Vídeos reais nunca são semeados nem substituídos por exemplos.
+
+Os dados persistem no mesmo navegador e origem. Não há sincronização entre dispositivos; limpar os dados do site os remove. Modo privado e armazenamento bloqueado ou cheio podem impedir persistência; nesse caso a interface mostra um aviso. Dados locais inválidos são preservados sem sobrescrita e um aviso é apresentado. Nenhum banco de dados ou login foi introduzido.
+
+### Organização
+
+- `src/App.jsx`: navegação e integração da biblioteca.
+- `src/components/`: cards, formulário de vídeo e modal acessível.
+- `src/lib/youtube.js`: extração de IDs e validação do cadastro.
+- `src/lib/library.js`: persistência versionada, consultas e cálculo de progresso.
+- `src/data/courses.js`: exemplos visuais, separados dos dados reais.
+- `src/styles.css`: identidade visual e layouts responsivos.
+- `src/*.test.jsx` e `src/lib/*.test.js`: regressão, validação, persistência e gerenciamento de vídeos.
 
 ## Publicação no GitHub Pages
 
